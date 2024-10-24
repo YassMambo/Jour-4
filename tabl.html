@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jour 4 - Manipulation de tableaux</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-md">
+        <h1 class="text-center pt-3 fw-bold text-decoration-underline fst-italic" style="font-family: Lucida;">Le Dernier Mois du Condamné</h1>
+        <h2 class="pt-3 fw-bold text-decoration-underline fst-italic" style="font-family: Lucida;">Jour n°4 - Manipulation de tableaux du condamné</h2>
+
+        <div class="m-3">
+            <label for="numberInput" class="form-label">Entrez un nombre :</label>
+            <input type="number" class="form-control" id="numberInput" placeholder="Exemple : 5">
+        </div>
+
+        <div class="m-3">
+            <button class="btn btn-secondary" onclick="addNumber()">Ajouter le nombre</button>
+
+        </div>
+
+        <div class="m-3">
+            <h4>Tableau actuel :</h4>
+            <p id="arrayDisplay">Aucun nombre ajouté pour l'instant</p>
+        </div>
+
+        <div class="m-3">
+            <button class="btn btn-primary" onclick="analyzeArray()">Analyser le tableau</button>
+            <button class="btn btn-danger" onclick="resetArray()">Recommencer</button> <!-- Bouton pour recommencer -->
+        </div>
+
+        <div class="m-3">
+            <h4>Résultats :</h4>
+            <p><strong>Tableau trié : </strong><span id="sortedArray"></span></p>
+            <p><strong>Plus grand élément : </strong><span id="maxElement"></span></p>
+            <p><strong>Moyenne des éléments : </strong><span id="average"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let numberArray = [];
+
+         // Détecte si l'utilisateur appuie sur la touche "Entrée"
+        document.getElementById('numberInput').addEventListener('keypress', function(event) 
+        {
+            if (event.key === 'Enter') {
+                addNumber();
+            }
+        });
+
+        // Ajouter un nombre au tableau
+        function addNumber() {
+            const numberInput = document.getElementById('numberInput').value;
+            const number = parseFloat(numberInput);
+
+            // Vérification de l'entrée utilisateur
+            if (isNaN(number)) {
+                alert('Veuillez entrer un nombre valide.');
+                return;
+            }
+
+            // Ajouter le nombre dans le tableau
+            numberArray.push(number);
+            document.getElementById('arrayDisplay').innerHTML = numberArray.join(', ');
+            document.getElementById('numberInput').value = ''; // Réinitialiser le champ de saisie
+            document.getElementById('numberInput').focus(); // Remet le focus sur l'input
+        }
+
+        // Analyser le tableau
+        function analyzeArray() {
+            if (numberArray.length === 0) {
+                alert('Veuillez ajouter des nombres avant d\'analyser le tableau.');
+                return;
+            }
+
+            // Trier le tableau
+            const sortedArray = numberArray.slice().sort((a, b) => a - b);
+            document.getElementById('sortedArray').innerHTML = sortedArray.join(', ');
+
+            // Trouver le plus grand élément
+            const maxElement = Math.max(...numberArray);
+            document.getElementById('maxElement').innerHTML = maxElement;
+
+            // Calculer la moyenne des éléments
+            const average = numberArray.reduce((sum, value) => sum + value, 0) / numberArray.length;
+            document.getElementById('average').innerHTML = average.toFixed(2);
+        }
+
+
+        function resetArray() {
+            numberArray = [];  // Vider le tableau
+
+            // Sélectionner tous les éléments à réinitialiser en une seule fois
+            document.querySelectorAll('#arrayDisplay, #sortedArray, #maxElement, #average').forEach((element) => {
+                element.innerHTML = '';  // Réinitialiser l'affichage des éléments
+            });
+
+            // Remettre un texte spécifique dans "arrayDisplay"
+            document.getElementById('arrayDisplay').innerHTML = "Aucun nombre ajouté pour l'instant";
+
+            // Réinitialiser le champ de saisie et remettre le focus
+            document.getElementById('numberInput').value = '';
+            document.getElementById('numberInput').focus();
+        }
+    </script>
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
